@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from sec.signin.models import *
+from signin.models import *
 
 def index(request):
 	records = Record.objects.all()
