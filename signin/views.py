@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from sec.signin.models import *
+from models import *
 from django.shortcuts import get_object_or_404
 from datetime import date
 
