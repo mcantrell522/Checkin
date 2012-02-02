@@ -1,0 +1,32 @@
+<html>
+<head>
+<style type="text/css">
+#content {
+	font-family: Arial;
+}
+</style>
+</head>
+<body OnLoad="document.form.idnum.focus();">
+<div id="content">
+	<form action="/signin/" method="post" name="form"> {% csrf_token %}
+		<center>
+		<h1>SEC General Assembly Meeting Attendance</h1>
+		<h2>Please swipe your hokie passport</h2>
+	<!--
+		<div class="fieldWrapper" style="height: 32pt; font-size: 24pt; width: 400px; text-align: center">
+			{{ form.idnum.errors }}
+			<label for="idnum"></label>
+			{{ form.idnum }}
+		</div>
+	-->
+		<input style="height: 32pt; font-size: 24pt; width: 400px; text-align: center" type="text" name="idnum">
+		<br>
+		<input type="submit" value="Submit"/>
+		<br>
+		<br>
+		<a href="/stats/">Stats</a>
+		</center>
+	</form>
+</div>
+</body>
+</html>
