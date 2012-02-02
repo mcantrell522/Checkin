@@ -14,33 +14,33 @@ class SigninForm2(forms.Form):
 	vtpid = forms.CharField()
 	firstname = forms.CharField()
 	lastname = forms.CharField()
-	society = forms.ModelChoiceField(queryset=Society.objects.all())
+	advertisingmethod = forms.ModelChoiceField(queryset=Advertisingmethod.objects.all())
 
-class AddOrgForm(forms.Form):
+class AddAdvertisingmethodForm(forms.Form):
 	name = forms.CharField()
 
 def index(request):
 	return render_to_response('signin.html', {'': ''}, context_instance=RequestContext(request))
 
 def getToday():
-	return GAM.objects.get(date=date.today())
+	return Event.objects.get(date=date.today())
 
 def checkinMember(member):
-	res = Record.objects.get_or_create(member=member, gam=getToday())
+	res = Record.objects.get_or_create(member=member, event=getToday())
 	return res[1]
 
 
 
-def addOrganization(request, trimmed_idnum):
-	return render_to_response('new_organization.html', {'idnum': trimmed_idnum}, context_instance=RequestContext(request))
+def addAdvertisingmethod(request, trimmed_idnum):
+	return render_to_response('new_advertisingmethod.html', {'idnum': trimmed_idnum}, context_instance=RequestContext(request))
 
-def createNewOrganization(request):
+def createNewAdvertisingmethod(request):
 	name = request.POST['name']
 	trimmed_idnum = request.POST['idnum']
-	if len(Society.objects.filter(name=name)) == 0:
-		o = Society(name=name)
+	if len(Advertisingmethod.objects.filter(name=name)) == 0:
+		o = Advertisingmethod(name=name)
 		o.save()
-	return render_to_response('newrecord.html', {'idnum': trimmed_idnum, 'choices': Society.objects.all()}, context_instance=RequestContext(request))
+	return render_to_response('newrecord.html', {'idnum': trimmed_idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 
 def signin(request):
 	trimmed_idnum = int(request.POST['idnum'][1:10])
@@ -51,11 +51,11 @@ def signin(request):
 		else:
 			return render_to_response('signin_duplicate.html', {'': ''}, context_instance=RequestContext(request))
 	else:
-		return render_to_response('newrecord.html', {'idnum': trimmed_idnum, 'choices': Society.objects.all()}, context_instance=RequestContext(request))
+		return render_to_response('newrecord.html', {'idnum': trimmed_idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 
 def createNewRecord(request):
 	# Create a new record, add attendance record
-	m = Member(idnum=request.POST['idnum'], pid=request.POST['pid'], firstname=request.POST['firstname'], lastname=request.POST['lastname'], society=get_object_or_404(Society, name=request.POST['society']))
+	m = Member(idnum=request.POST['idnum'], pid=request.POST['pid'], firstname=request.POST['firstname'], lastname=request.POST['lastname'], advertisingmethod=get_object_or_404(Advertisingmethod, name=request.POST['advertisingmethod']))
 	m.save()
 	checkinMember(m)
 	return render_to_response('signin_success.html', {'': ''}, context_instance=RequestContext(request))

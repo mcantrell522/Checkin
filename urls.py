@@ -18,6 +18,6 @@ urlpatterns = patterns('',
 	(r'^$', 'signin.views.index'),
 	(r'^signin/', 'signin.views.signin'),
 	(r'^new/', 'signin.views.createNewRecord'),
-	(r'^addorg/(?P<trimmed_idnum>\d+)/$', 'signin.views.addOrganization'),
-	(r'^createorg/$', 'signin.views.createNewOrganization'),
+	(r'^addadvertisingmethod/(?P<trimmed_idnum>\d+)/$', 'signin.views.addAdvertisingmethod'),
+	(r'^createadvertisingmethod/$', 'signin.views.createNewAdvertisingmethod'),
 )

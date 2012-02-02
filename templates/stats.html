@@ -19,8 +19,8 @@ td.red {
 <table border="2" width="50%">
 	<tr>
 		<td width="150"><strong>Member</strong></td>
-		<td width="150"><strong>Organization</strong></td>
-		{% for g in gam %}
+		<td width="150"><strong>Advertising Method</strong></td>
+		{% for g in event %}
 		<td width="100"><strong>{{ g.date }}</strong></td>
 		{% endfor %}
 		<td><strong>Percent</strong></td>
@@ -41,11 +41,11 @@ td.red {
 	</tr>
 	{% endfor %}
 </table>
-<h2>Societies</h2>
+<h2>Advertising methods</h2>
 <table border="2" width="50%">
 	<tr>
-		<td width="305"><strong>Organization</strong></td>
-		{% for g in gam %}
+		<td width="305"><strong>Advertising method</strong></td>
+		{% for g in event %}
 		<td width="100"><strong>{{ g.date }}</strong></td>
 		{% endfor %}
 		<td><strong>Percent</strong></td>

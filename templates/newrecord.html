@@ -11,20 +11,20 @@
 	<form action="/new/" method="post"> {% csrf_token %}
 		<center>
 	
-		<h1>SEC General Assembly Meeting Attendance</h1>
+		<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
 		<h2>Enter your information:</h2>
 
 		<strong>VT PID (without @vt.edu): </strong><input type="text" name="pid"><br><br>
 		<strong>First Name: </strong><input type="text" name="firstname"><br><br>
 		<strong>Last Name: </strong><input type="text" name="lastname"><br><br>
 	
-		<strong>Organization: </strong>
-		<select name="society">
+		<strong>How you heard about us: </strong>
+		<select name="advertisingmethod">
 		{% for choice in choices %}
 			<option value="{{ choice.name }}">{{ choice.name }}</option>
 		{% endfor %}
 		</select>
-		<a href="/addorg/{{ idnum }}">Add Organization</a>
+		<a href="/addadvertisingmethod/{{ idnum }}">Add</a>
 		<br><br>
 		<input type="hidden" name="idnum" value="{{ idnum }}">
 		<input type="submit" value="Submit"/>	
