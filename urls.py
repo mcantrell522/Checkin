@@ -20,4 +20,5 @@ urlpatterns = patterns('',
 	(r'^new/', 'signin.views.createNewRecord'),
 	(r'^addadvertisingmethod/(?P<trimmed_idnum>\d+)/$', 'signin.views.addAdvertisingmethod'),
 	(r'^createadvertisingmethod/$', 'signin.views.createNewAdvertisingmethod'),
+    #(r'^django-csvimport/', include('excel.urls')),
 )

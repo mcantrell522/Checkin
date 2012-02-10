@@ -11,11 +11,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'OPTIONS' : {
-		'read_default_file': '/path/to/my.cnf',
-	},
-}       
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/home/anthony/checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -71,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'checkin.middleware.HttpExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'urls'

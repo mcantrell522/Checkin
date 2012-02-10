@@ -12,7 +12,10 @@ def index(request):
 	for member in Member.objects.all():
 		attend_member[member.pid] = []
 		attend_member[member.pid].append(member.firstname + " " + member.lastname)
-		attend_member[member.pid].append(member.advertisingmethod.name)
+		try:
+			attend_member[member.pid].append(member.advertisingmethod.name)
+		except:
+			attend_member[member.pid].append(member.advertisingmethod)
 		attend_member[member.pid].append([])
 		for g in Event.objects.all():
 			try:

@@ -1,6 +1,6 @@
 # Django settings for project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/anthony/checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
+        'NAME': '/home/anthony/workspace/Checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
     }
 }
 
@@ -93,4 +93,5 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 	'signin',
 	'stats',
+    'csvimport',
 )
