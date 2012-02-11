@@ -1,4 +1,5 @@
 # Django settings for project.
+import logging
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -15,6 +16,23 @@ DATABASES = {
         'NAME': '/home/anthony/workspace/Checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
     }
 }
+
+if DEBUG:
+    # will output to your console
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+    )
+else:
+    # will output to logging file
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+        filename = '/my_log_file.log',
+        filemode = 'a'
+    )
+
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

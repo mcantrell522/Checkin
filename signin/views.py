@@ -4,7 +4,10 @@ from django.template import RequestContext
 from models import *
 from django.shortcuts import get_object_or_404
 from datetime import date
-from Checkin.middleware import * 
+from Checkin.middleware import *
+import logging
+
+logger = logging.getLogger(__name__) 
 
 class SigninForm(forms.Form):
 	idnum = forms.CharField();
@@ -47,8 +50,10 @@ def createNewAdvertisingmethod(request):
 	return render_to_response('newrecord.html', {'idnum': trimmed_idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 
 def signin(request):
-	trimmed_idnum = int(request.POST['idnum'][1:10])
-	if len(Member.objects.filter(idnum=trimmed_idnum)) == 1:
+	trimmed_idnum = int(request.POST['idnum'][0:10])
+	matchCount = len(Member.objects.filter(idnum=trimmed_idnum))
+	logger.info('signin request for ' + str(trimmed_idnum) + ' matched ' + str(matchCount) + ' members in database')
+	if matchCount == 1:
 		# Member already exists, add attendance record
 		if checkinMember(Member.objects.filter(idnum=trimmed_idnum)[0]):
 			return render_to_response('signin_success.html', {'': ''}, context_instance=RequestContext(request))
