@@ -43,10 +43,12 @@ class Member(models.Model):
 	event2_9_2012 = models.CharField(max_length = 20)
 	def __unicode__(self):
 		return self.pid
+	def statsID(self):
+		return self.firstname + " " + self.lastname
 
 
 class Record(models.Model):
 	member = models.ForeignKey(Member)
 	event = models.ForeignKey(Event)
 	def __unicode__(self):
-		return self.member.pid + " " + self.event.date.__str__()
+		return self.member.firstname + " " + self.member.lastname + " " + self.event.date.__str__()

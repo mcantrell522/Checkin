@@ -10,20 +10,20 @@ def index(request):
 	attend_advertisingmethod = {}
 	
 	for member in Member.objects.all():
-		attend_member[member.pid] = []
-		attend_member[member.pid].append(member.firstname + " " + member.lastname)
+		attend_member[member.statsID] = []
+		attend_member[member.statsID].append(member.firstname + " " + member.lastname)
 		try:
-			attend_member[member.pid].append(member.advertisingmethod.name)
+			attend_member[member.statsID].append(member.advertisingmethod.name)
 		except:
-			attend_member[member.pid].append(member.advertisingmethod)
-		attend_member[member.pid].append([])
+			attend_member[member.statsID].append(member.advertisingmethod)
+		attend_member[member.statsID].append([])
 		for g in Event.objects.all():
 			try:
 				record = Record.objects.get(member=member, event=g)
-				attend_member[member.pid][2].append(1)
+				attend_member[member.statsID][2].append(1)
 			except:		
-				attend_member[member.pid][2].append(0)
-		attend_member[member.pid].append(100 * sum(attend_member[member.pid][2])/len(attend_member[member.pid][2]))
+				attend_member[member.statsID][2].append(0)
+		attend_member[member.statsID].append(100 * sum(attend_member[member.statsID][2])/len(attend_member[member.statsID][2]))
 
 	for s in Advertisingmethod.objects.all():
 		if s.name == 'Individual':
