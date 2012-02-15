@@ -1,0 +1,27 @@
+<html>
+<head>
+<style type="text/css">
+#content {
+	font-family: Arial;
+}
+</style>
+</head>
+<body OnLoad="document.form.idnum.focus();">
+<div id="content">
+	<form action="/signin/" method="post" name="form"> {% csrf_token %}
+		<center>
+		<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
+		<h2>Please swipe your hokie passport (or enter phone number if not a student)</h2>
+		<input style="height: 32pt; font-size: 24pt; width: 400px; text-align: center" type="text" name="idnum">
+		<br>
+		<input type="submit" value="Sign in existing/new member via ID"/>
+		<br>
+		<br>
+		<a href "/signin/associateexisting/">Associate ID with existing member</a>
+		<br>
+		<a href="/stats/">Stats</a>
+		</center>
+	</form>
+</div>
+</body>
+</html>
