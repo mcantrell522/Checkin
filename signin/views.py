@@ -10,9 +10,9 @@ import logging
 logger = logging.getLogger(__name__) 
 
 class SigninForm(forms.Form):
-	idnum = forms.CharField();
-	firstname = forms.CharField();
-	lastname = forms.CharField();
+	idnum = forms.CharField(required=True);
+	firstname = forms.CharField(required=False)
+	lastname = forms.CharField(required=False)
 	associate = forms.BooleanField(required=False)
 	def is_valid(self):
 		return True;
@@ -93,7 +93,7 @@ def signin(request):
 	 	else:
 	 		form = SigninForm() # An unbound form
 
-	 return render_to_response('contact.html', {'form': form, })
+	 return render_to_response('signin.html', {'form': form, })
 
 
 def createNewRecord(request):
