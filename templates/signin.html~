@@ -12,16 +12,10 @@
 		<center>
 		<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
 		<h2>Please swipe your hokie passport (or enter phone number if not a student)</h2>
-	<!--
-		<div class="fieldWrapper" style="height: 32pt; font-size: 24pt; width: 400px; text-align: center">
-			{{ form.idnum.errors }}
-			<label for="idnum"></label>
-			{{ form.idnum }}
-		</div>
-	-->
 		<input style="height: 32pt; font-size: 24pt; width: 400px; text-align: center" type="text" name="idnum">
 		<br>
-		<input type="submit" value="Submit"/>
+		<input type="submit" value="Existing/New member"/>
+		<input type="submit" value="Associate ID for past member"/>
 		<br>
 		<br>
 		<a href="/stats/">Stats</a>

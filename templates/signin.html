@@ -1,5 +1,43 @@
+<!DOCTYPE html>
 <html>
 <head>
+<SCRIPT TYPE="text/javascript">
+<!--
+// copyright 1999 Idocs, Inc. http://www.idocs.com
+// Distribute this script freely but keep this notice in place
+function numbersonly(myfield, e, dec)
+{
+var key;
+var keychar;
+
+if (window.event)
+   key = window.event.keyCode;
+else if (e)
+   key = e.which;
+else
+   return true;
+keychar = String.fromCharCode(key);
+
+// control keys
+if ((key==null) || (key==0) || (key==8) || 
+    (key==9) || (key==13) || (key==27) )
+   return true;
+
+// numbers
+else if ((("0123456789").indexOf(keychar) > -1))
+   return true;
+
+// decimal point jump
+else if (dec && (keychar == "."))
+   {
+   myfield.form.elements[dec].focus();
+   return false;
+   }
+else
+   return false;
+}
+//-->
+</SCRIPT>
 <style type="text/css">
 #content {
 	font-family: Arial;
@@ -7,15 +45,38 @@
 </style>
 </head>
 <body OnLoad="document.form.idnum.focus();">
+<center>
+<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
+<br>
+<h2>Please swipe your hokie passport (or enter phone number if not a student)</h2>
 <div id="content">
 	<form action="/signin/" method="post" name="form"> {% csrf_token %}
-		<center>
-		<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
-		<h2>Please swipe your hokie passport (or enter phone number if not a student)</h2>
-		<input style="height: 32pt; font-size: 24pt; width: 400px; text-align: center" type="text" name="idnum">
-		<br>
-		<input type="submit" value="Submit"/>
-		<br>
+		<p><label for="id_idnum"></label>
+		<input type="number" name="idnum" id="id_idnum" 
+		style="height: 32pt; font-size: 24pt; width: 400px; text-align: center"
+		onkeypress="return numbersonly(this,event)"  /></p>
+		
+		<p><label for="id_firstname"></label>
+		<input type="text" name="firstname" id="id_firstname" value="First name" disabled="disabled"
+		 onblur="if (this.value == '') {this.value = 'First name';}"
+ 		 onfocus="if (this.value == 'First name') {this.value = '';}"/></p>
+		
+		<p><label for="id_lastname"></label>
+		<input type="text" name="lastname" id="id_lastname" value="Last name" disabled="disabled"
+		 onblur="if (this.value === '') {this.value = 'Last name';}"
+ 		 onfocus="if (this.value === 'Last name') {this.value = '';}"/></p>		
+		
+		<p><label for="id_associate">Associate ID with existing member</label>
+    	<input type="checkbox" name="associate" id="id_associate" 
+    	onclick="if(this.checked){
+    	 			id_lastname.disabled='';
+    	 			id_firstname.disabled='';
+    	 		 }else{
+    	 		 	id_lastname.disabled='disabled';
+    	 		 	id_firstname.disabled='disabled';
+    	 		 }"
+    	/></p>
+		<input type="submit" value="Submit" />
 		<br>
 		<a href="/stats/">Stats</a>
 		</center>
