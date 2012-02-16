@@ -20,31 +20,35 @@ class Member(models.Model):
 	email = models.CharField(max_length = 20)
 	studenttype = models.CharField(max_length = 20)
 	membershipexpiration = models.CharField(max_length = 20) 
-	advertisingmethod = models.CharField(max_length = 20,required=False)#models.ForeignKey(Advertisingmethod)
-	referername = models.CharField(max_length = 20,required=False)
-	paymentinfo = models.CharField(max_length = 20,required=False)
-	event1_22_11 = models.CharField(max_length = 20,required=False)
-	event9_8_11 = models.CharField(max_length = 20,required=False)
-	event9_10_11 = models.CharField(max_length = 20,required=False)
-	event9_15_11 = models.CharField(max_length = 20,required=False)
-	event9_29_11 = models.CharField(max_length = 20,required=False)
-	event10_6_11 = models.CharField(max_length = 20,required=False)
-	event10_13_11 = models.CharField(max_length = 20,required=False)
-	eventsocial10_15= models.CharField(max_length = 20,required=False)
-	event10_20_11 = models.CharField(max_length = 20,required=False)
-	event10_27_11 = models.CharField(max_length = 20,required=False)
-	event11_3_11 = models.CharField(max_length = 20,required=False)
-	event11_10_11 = models.CharField(max_length = 20,required=False)
-	event12_1_11 = models.CharField(max_length = 20,required=False)
-	event1_19_2012 = models.CharField(max_length = 20,required=False)
-	event1_26_2012 = models.CharField(max_length = 20,required=False)
-	event2_2_2012 = models.CharField(max_length = 20,required=False)
-	eventSocial2_4_2012 = models.CharField(max_length = 20,required=False)
-	event2_9_2012 = models.CharField(max_length = 20,required=False)
+	advertisingmethod = models.CharField(max_length = 200)#models.ForeignKey(Advertisingmethod)
+	referername = models.CharField(max_length = 20)
+	paymentinfo = models.CharField(max_length = 20)
+	event1_22_11 = models.CharField(max_length = 20)
+	event9_8_11 = models.CharField(max_length = 20)
+	event9_10_11 = models.CharField(max_length = 20)
+	event9_15_11 = models.CharField(max_length = 20)
+	event9_29_11 = models.CharField(max_length = 20)
+	event10_6_11 = models.CharField(max_length = 20)
+	event10_13_11 = models.CharField(max_length = 20)
+	eventsocial10_15= models.CharField(max_length = 20)
+	event10_20_11 = models.CharField(max_length = 20)
+	event10_27_11 = models.CharField(max_length = 20)
+	event11_3_11 = models.CharField(max_length = 20)
+	event11_10_11 = models.CharField(max_length = 20)
+	event12_1_11 = models.CharField(max_length = 20)
+	event1_19_2012 = models.CharField(max_length = 20)
+	event1_26_2012 = models.CharField(max_length = 20)
+	event2_2_2012 = models.CharField(max_length = 20)
+	eventSocial2_4_2012 = models.CharField(max_length = 20)
+	event2_9_2012 = models.CharField(max_length = 20)
 	def __unicode__(self):
 		return self.pid
 	def statsID(self):
-		return self.firstname + " " + self.lastname
+		if self.idnum != "":
+			idstatus = "(has id)"
+		else:
+			idstatus = "(no id)"
+		return self.lastname + ", " + self.firstname + " " + idstatus
 
 
 class Record(models.Model):

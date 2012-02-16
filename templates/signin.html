@@ -57,7 +57,8 @@ else
 		onkeypress="return numbersonly(this,event)"  /></p>
 		
 		<p><label for="id_firstname"></label>
-		<input type="text" name="firstname" id="id_firstname" value="First name" disabled="disabled"
+		<input type="text" name="firstname" id="id_firstname"
+		value="First name" disabled="disabled"
 		 onblur="if (this.value == '') {this.value = 'First name';}"
  		 onfocus="if (this.value == 'First name') {this.value = '';}"/></p>
 		
@@ -66,8 +67,9 @@ else
 		 onblur="if (this.value === '') {this.value = 'Last name';}"
  		 onfocus="if (this.value === 'Last name') {this.value = '';}"/></p>		
 		
-		<p><label for="id_associate">Associate ID with existing member</label>
-    	<input type="checkbox" name="associate" id="id_associate" 
+		<p><label for="id_associate">Associate ID with existing member (only do this once per member!)</label>
+		<br>
+		<input type="checkbox" name="associate" id="id_associate" 
     	onclick="if(this.checked){
     	 			id_lastname.disabled='';
     	 			id_firstname.disabled='';
@@ -76,9 +78,20 @@ else
     	 		 	id_firstname.disabled='disabled';
     	 		 }"
     	/></p>
+    	
+		<select name="choices">
+		{% for choice in choices %}
+			<option value="{{ choice.statsID }}">{{ choice.statsID }}</option>
+		{% endfor %}
+		</select>
+		</ul>
+		
+    	
 		<input type="submit" value="Submit" />
 		<br>
 		<a href="/stats/">Stats</a>
+		<br>
+		<a href="/admin/">Admin</a>
 		</center>
 	</form>
 </div>
