@@ -1,10 +1,9 @@
+from Checkin.middleware import *
+from datetime import date
 from django import forms
-from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from models import *
-from django.shortcuts import get_object_or_404
-from datetime import date
-from Checkin.middleware import *
 import logging
 
 logger = logging.getLogger(__name__)
@@ -20,9 +19,17 @@ class SigninForm(forms.Form):
 	idnum = forms.CharField(required=True);
 	firstname = forms.CharField(required=False)
 	lastname = forms.CharField(required=False)
+	associate = forms.BooleanField(widget=forms.CheckboxInput,required=False)
 	choices = forms.ChoiceField(widget=forms.Select, choices=header_search(),required=False)
-	associate = forms.BooleanField(required=False)
+	def clean(self):
+		cleaned_data = super(SigninForm, self).clean()
+		idnum = cleaned_data.get("idnum")
+		firstname = cleaned_data.get("firstname")
+		lastname = cleaned_data.get("lastname")
+		associate = cleaned_data.get("associate")
+		return cleaned_data
 	def is_valid(self):
+		self.clean()
 		return True;
 
 class SigninForm2(forms.Form):
@@ -72,13 +79,13 @@ def signin(request):
 			if needToAssociate:
 				logger.info('Need to associate ID with existing member')
 				matches = Member.objects.filter(firstname__iexact=form.cleaned_data['firstname'], lastname__iexact=form.cleaned_data['lastname'])
-				logger.info('Finding matches for member ' + form.cleaned_data['firstname'] + ' ' + form.cleaned_data['lastname'])
+				logger.info('Finding matches for member ' + str(form.cleaned_data['firstname']) + ' ' + str(form.cleaned_data['lastname']))
 				if len(matches) == 1: #all is well, make the id association
-					logger.info('Found 1 match, storing ID')
+					logger.info('Found a match, storing ID')
 					matches[0].idnum = idnum
 					matches[0].save()
-				elif len(matches) > 1:
-					logger.info('Found too many (' + len(matches) + ') matches, need to fix')
+				elif int(len(matches)) > int(1):
+					logger.info('Found too many matches, need to fix')
 					return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 				else:
 					logger.info('Found no matches, need to make new member.')
@@ -98,7 +105,6 @@ def signin(request):
 			#return HttpResponseRedirect('/thanks/') # Redirect after POST
 	else:
 			form = SigninForm() # An unbound form
-
 			return render_to_response('signin.html', {'form': form, 'choices' : Advertisingmethod.objects.all() })
 
 
