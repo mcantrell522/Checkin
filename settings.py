@@ -13,7 +13,8 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/anthony/Code/Workspaces/Checkin/Checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
+        #'NAME': '/home/anthony/Code/Workspaces/Checkin/Checkin/Checkin/mydata.db',                      # Or path to database file if using sqlite3.
+        'NAME': '/home/anthony/workspace/Checkin/Checkin/mydata.db',
     }
 }
 

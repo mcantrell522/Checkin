@@ -16,21 +16,19 @@ def header_search():
 	return cat_values
 	
 class SigninForm(forms.Form):
-	idnum = forms.CharField(required=True);
+	idnum = forms.CharField()
+	cleaned_data = []	
 	firstname = forms.CharField(required=False)
 	lastname = forms.CharField(required=False)
 	associate = forms.BooleanField(widget=forms.CheckboxInput,required=False)
 	choices = forms.ChoiceField(widget=forms.Select, choices=header_search(),required=False)
-	def clean(self):
-		cleaned_data = super(SigninForm, self).clean()
-		idnum = cleaned_data.get("idnum")
-		firstname = cleaned_data.get("firstname")
-		lastname = cleaned_data.get("lastname")
-		associate = cleaned_data.get("associate")
-		return cleaned_data
 	def is_valid(self):
-		self.clean()
-		return True;
+			if self._errors:
+				logger.info("self has errors, raising error")
+				raise forms.ValidationError("Data validation failed")
+			else:
+				logger.info("Form valid, returning true")
+				return True
 
 class SigninForm2(forms.Form):
 	vtpid = forms.CharField()
@@ -72,10 +70,11 @@ def signin(request):
 		form = SigninForm(request.POST) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
 			logger.info('form valid')
-			idnum = form.cleaned_data['idnum']
-			firstname = form.cleaned_data['firstname']
-			lastname = form.cleaned_data['lastname']
-			needToAssociate = form.cleaned_data['associate']
+			idnum = request.POST['idnum']
+			#idnum = form.cleaned_data.get('idnum')
+			firstname = request.POST['firstname'] or ""
+			lastname = request.POST['lastname'] or ""
+			needToAssociate = request.POST['associate'] or ""
 			if needToAssociate:
 				logger.info('Need to associate ID with existing member')
 				matches = Member.objects.filter(firstname__iexact=form.cleaned_data['firstname'], lastname__iexact=form.cleaned_data['lastname'])
@@ -84,12 +83,12 @@ def signin(request):
 					logger.info('Found a match, storing ID')
 					matches[0].idnum = idnum
 					matches[0].save()
+					logger.info('Saved id, returning to home page')
+					return render_to_response('signin.html', {'form': form})
 				elif int(len(matches)) > int(1):
 					logger.info('Found too many matches, need to fix')
-					return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 				else:
 					logger.info('Found no matches, need to make new member.')
-					return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 			else:
 				logger.info('Looking up existing member for ID')
 				matches = Member.objects.filter(idnum=idnum)
@@ -99,13 +98,13 @@ def signin(request):
 					if checkinMember(matches[0]):
 						return render_to_response('signin_success.html', {'': ''}, context_instance=RequestContext(request))
 					else:
-						return render_to_response('signin_duplicate.html', {'': ''}, context_instance=RequestContext(request))
+						logger.info('duplicate signin')
+						#return render_to_response('signin_duplicate.html', {'': ''}, context_instance=RequestContext(request))
 		else:
 					return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
-			#return HttpResponseRedirect('/thanks/') # Redirect after POST
 	else:
 			form = SigninForm() # An unbound form
-			return render_to_response('signin.html', {'form': form, 'choices' : Advertisingmethod.objects.all() })
+			return render_to_response('signin.html', {'form': form, 'choices' : Member.objects.all() }, context_instance=RequestContext(request))
 
 
 def createNewRecord(request):
@@ -115,5 +114,6 @@ def createNewRecord(request):
 		m.save()
 		checkinMember(m)
 	except Event.DoesNotExist:
+		logger.error('Event does not exist, cannot make user')		
 		raise BadUserCreation
 	return render_to_response('signin_success.html', {'': ''}, context_instance=RequestContext(request))
