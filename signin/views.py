@@ -12,23 +12,14 @@ def header_search():
 	cat_values = []
 	cats_list = Member.objects.all()
 	for cat in cats_list:
-		cat_values.append((cat.statsID))
+		cat_values.append((cat.statsID()))
 	return cat_values
 	
 class SigninForm(forms.Form):
-	idnum = forms.CharField()
-	cleaned_data = []	
+	idnum = forms.CharField()	
 	firstname = forms.CharField(required=False)
 	lastname = forms.CharField(required=False)
 	associate = forms.BooleanField(widget=forms.CheckboxInput,required=False)
-	choices = forms.ChoiceField(widget=forms.Select, choices=header_search(),required=False)
-	def is_valid(self):
-			if self._errors:
-				logger.info("self has errors, raising error")
-				raise forms.ValidationError("Data validation failed")
-			else:
-				logger.info("Form valid, returning true")
-				return True
 
 class SigninForm2(forms.Form):
 	vtpid = forms.CharField()
@@ -70,11 +61,10 @@ def signin(request):
 		form = SigninForm(request.POST) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
 			logger.info('form valid')
-			idnum = request.POST['idnum']
-			#idnum = form.cleaned_data.get('idnum')
-			firstname = request.POST['firstname'] or ""
-			lastname = request.POST['lastname'] or ""
-			needToAssociate = request.POST['associate'] or ""
+			idnum = form.cleaned_data['idnum']
+			firstname = form.cleaned_data['firstname']
+			lastname = form.cleaned_data['lastname']
+			needToAssociate = form.cleaned_data['associate']
 			if needToAssociate:
 				logger.info('Need to associate ID with existing member')
 				matches = Member.objects.filter(firstname__iexact=form.cleaned_data['firstname'], lastname__iexact=form.cleaned_data['lastname'])
@@ -84,7 +74,7 @@ def signin(request):
 					matches[0].idnum = idnum
 					matches[0].save()
 					logger.info('Saved id, returning to home page')
-					return render_to_response('signin.html', {'form': form})
+					return render_to_response('idassociator.html', {})
 				elif int(len(matches)) > int(1):
 					logger.info('Found too many matches, need to fix')
 				else:
@@ -99,7 +89,9 @@ def signin(request):
 						return render_to_response('signin_success.html', {'': ''}, context_instance=RequestContext(request))
 					else:
 						logger.info('duplicate signin')
-						#return render_to_response('signin_duplicate.html', {'': ''}, context_instance=RequestContext(request))
+						return render_to_response('signin_duplicate.html', {'': ''}, context_instance=RequestContext(request))
+			else:
+				return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 		else:
 					return render_to_response('newrecord.html', {'idnum': idnum, 'choices': Advertisingmethod.objects.all()}, context_instance=RequestContext(request))
 	else:

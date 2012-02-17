@@ -20,8 +20,12 @@ keychar = String.fromCharCode(key);
 
 // control keys
 if ((key==null) || (key==0) || (key==8) || 
-    (key==9) || (key==13) || (key==27) )
+    (key==9) || (key==27) )
    return true;
+
+if(key == 13)
+          return false;
+
 
 // numbers
 else if ((("0123456789").indexOf(keychar) > -1))
@@ -52,7 +56,7 @@ else
 <div id="content">
 	<form action="/signin/" method="post" name="form"> {% csrf_token %}
 		<p><label for="id_idnum"></label>
-		<input type="number" name="idnum" id="id_idnum" 
+		<input type="password" name="idnum" id="id_idnum"  maxlength="9"
 		style="height: 32pt; font-size: 24pt; width: 400px; text-align: center"
 		onkeypress="return numbersonly(this,event)"  /></p>
 		
