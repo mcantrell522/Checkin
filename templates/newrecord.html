@@ -1,5 +1,33 @@
 <html>
 <head>
+<script type="text/javascript"
+ src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#pid').bind('blur', function () {
+      $.get("/test/"+this.value+"/", function(data) {
+          console.log("get called");
+          if(data){
+          	console.log("had data");
+          	if(data.firstname){
+          		console.log("had first name");
+          		$("#firstname").val(data.firstname);
+          	}if(data.lastname){
+          		console.log("had last name");
+          		$("#lastname").val(data.lastname);
+            }if(data.major){
+          		console.log("had major");
+          		$("#major").val(data.major);
+            }if(data.email){
+          		console.log("had email");
+          		$("#email").val(data.email);
+            }
+          }
+      });
+   });
+});
+</script>
 <style type="text/css">
 #content {
 	font-family: Arial;
@@ -14,9 +42,12 @@
 		<h1>Ballroom Dance @ Virginia Tech Attendance</h1>
 		<h2>Enter your information:</h2>
 
-		<strong>VT PID (without @vt.edu): </strong><input type="text" name="pid"><br><br>
-		<strong>First Name: </strong><input type="text" name="firstname"><br><br>
-		<strong>Last Name: </strong><input type="text" name="lastname"><br><br>
+		<strong>VT PID (without @vt.edu): </strong><input type="text" name="pid" id="pid"><br><br>
+		<strong>First Name: </strong><input type="text" name="firstname" id="firstname"><br>
+		<strong>Last Name: </strong><input type="text" name="lastname" id="lastname"><br>
+		<strong>Email: </strong><input type="text" name="email" id="email"><br>
+		<strong>Major: </strong><input type="text" name="major" id="major"><br>
+		
 	
 		<strong>How you heard about us: </strong>
 		<select name="advertisingmethod">

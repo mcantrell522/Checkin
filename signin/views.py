@@ -4,7 +4,10 @@ from django import forms
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from models import *
+import hs
 import logging
+from django.utils import simplejson
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +17,19 @@ def header_search():
 	for cat in cats_list:
 		cat_values.append((cat.statsID()))
 	return cat_values
+
+def quiz_guess(request, pid):   
+	message = {"mail": "", "givenName": ""}
+	if request.is_ajax():
+		results = hs.search(pid)
+		person = results[0]
+		logger.info(results)
+		message['firstname'] = person.get('givenName')
+		message['major'] = person.get('major')
+		message['lastname'] = person.get('sn')
+		message['email'] = person.get('mail')
+		json = simplejson.dumps(message)
+	return HttpResponse(json, mimetype='application/json')
 	
 class SigninForm(forms.Form):
 	idnum = forms.CharField()	
