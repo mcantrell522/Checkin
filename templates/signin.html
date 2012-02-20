@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript"
+ src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
 <SCRIPT TYPE="text/javascript">
 <!--
 // copyright 1999 Idocs, Inc. http://www.idocs.com
@@ -42,6 +45,15 @@ else
 }
 //-->
 </SCRIPT>
+/*<script type="text/javascript">
+  $(document).ready(function() {
+    $('#id_idnum').bind('blur', function () {
+      $.get("/emailfinder/", function(data) {
+          console.log("get called");
+      });
+   });
+});*/
+</script>
 <style type="text/css">
 #content {
 	font-family: Arial;

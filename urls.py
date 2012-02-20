@@ -21,6 +21,7 @@ urlpatterns = patterns('',
 	(r'^new/', 'signin.views.createNewRecord'),
 	(r'^addadvertisingmethod/(?P<trimmed_idnum>\d+)/$', 'signin.views.addAdvertisingmethod'),
 	(r'^createadvertisingmethod/$', 'signin.views.createNewAdvertisingmethod'),# Process a quiz guess
-    (r'^test/(?P<pid>\w+)/$', 'signin.views.quiz_guess',)
+    (r'^test/(?P<pid>\w+)/$', 'signin.views.quiz_guess'),
+    (r'^emailfinder/$', 'signin.views.addEmails')
     #(r'^django-csvimport/', include('excel.urls')),
 )

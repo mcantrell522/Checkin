@@ -18,6 +18,40 @@ def header_search():
 		cat_values.append((cat.statsID()))
 	return cat_values
 
+def addEmails(args):
+	noemails = Member.objects.filter(email='')
+	saveCount = emptyHSEmailViaName = tooManyHSMatches = emptyHSEmailViaPID = tooManyHSMatchesViaPID = 0
+	for person in noemails:
+		hsmatches = hs.search(person.firstname + ' ' + person.lastname)
+		if(len(hsmatches) == 1): #only one person, let's see if their email is saved
+			if(hsmatches[0].get('mail') != ''):
+				person.email = hsmatches[0].get('mail')
+				person.save()
+				saveCount += 1
+			else:
+				emptyHSEmailViaName += 1
+		else:
+			tooManyHSMatches += 1
+			hsmatches = hs.search(person.pid)
+			if(len(hsmatches) == 1):
+				if(hsmatches[0].get('mail') != ''):
+					person.email = hsmatches[0].get('mail')
+					person.save()
+					saveCount += 1
+				else:
+					emptyHSEmailViaPID +=1
+			else:
+				tooManyHSMatchesViaPID += 1
+						
+			
+		logger.info(str(len(hsmatches)) + ' found for ' + person.firstname + ' ' + person.lastname)
+	logger.info('added emails for ' + str(saveCount) + ' people.')
+	logger.info('Failed for  ' + str(len(noemails)-saveCount) + ' people.')
+	logger.info('Failures: ' + str(emptyHSEmailViaName) + ' empty HS via name emails')
+	logger.info('Failures: ' + str(emptyHSEmailViaPID) + ' empty HS via pid emails')
+	logger.info('          ' + str(tooManyHSMatches) + ' too many hs matches')
+	logger.info('          ' + str(tooManyHSMatchesViaPID) + ' too many hs matches via pid')
+
 def quiz_guess(request, pid):   
 	message = {"mail": "", "givenName": ""}
 	if request.is_ajax():
