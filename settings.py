@@ -10,6 +10,12 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'vtballroomdance@gmail.com'
+EMAIL_HOST_PASSWORD = 'ballroom1'
+EMAIL_PORT = 587
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.

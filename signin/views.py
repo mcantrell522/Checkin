@@ -6,6 +6,7 @@ from django.template import RequestContext
 from models import *
 import hs
 import logging
+from utils import addToListserv
 from django.utils import simplejson
 from django.http import HttpResponse
 
@@ -154,6 +155,7 @@ def createNewRecord(request):
 	try:
 		m = Member(idnum=request.POST['idnum'], pid=request.POST['pid'], firstname=request.POST['firstname'], lastname=request.POST['lastname'], advertisingmethod=get_object_or_404(Advertisingmethod, name=request.POST['advertisingmethod']))
 		m.save()
+		addToListserv(request.POST['email'])
 		checkinMember(m)
 	except Event.DoesNotExist:
 		logger.error('Event does not exist, cannot make user')		
